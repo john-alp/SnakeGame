@@ -23,7 +23,9 @@ public class GameField extends JPanel implements ActionListener {
     private boolean up = false;
     private boolean down = false;
     private boolean inGame = true; //
-
+    /*
+      Конструктор
+     */
     public GameField(){
             setBackground(Color.black);
             loadImages();
@@ -32,9 +34,9 @@ public class GameField extends JPanel implements ActionListener {
             setFocusable(true);
         }
         public void initGame(){
-        dots = 3;
+        dots = 3; // Размер змейки 3x16
         for (int i = 0; i < dots; i++){
-            x[i] = 48 - i*DOT_SIZE;
+            x[i] = 48 - i*DOT_SIZE; // DOT_SIZE размер точки .. 1/x=48 2/x=32 3/x=16
             y[i] = 48;
         }
         timer = new Timer(250,this); // 250 миллисекунд, на классе GameField
@@ -118,18 +120,29 @@ public class GameField extends JPanel implements ActionListener {
     }
     @Override // вызывается каждый раз, когда "тикает" таймер
     public void actionPerformed(ActionEvent e) {
-         if (inGame){
+         if (inGame){   // inGame - если мы в игре
              checkApple();
              checkCollisions();
              move();
          }
          repaint();
     }
+    /*
+     KeyListener обрабатыват события с клавиатуры
+    KeyListener имеет три метода: keyTyped, keyPressed и keyReleased.
+     Метод keyTyped вызывается системой каждый раз, когда пользователь нажимает на клавиатуре клавиши символы Unicode.
+     Метод keyPressed вызывается системой в случае нажатия любой клавиши на клавиатуре.
+     Метод keyReleased вызывается при отпускании любой клавиши на клавиатуре.
+    Чтобы добавить слушателя KeyListener к интересуемому компоненту для прослушивания событий клавиатуры,
+    используется метод addKeyListener. В качестве параметра методу передается ссылка на слушателя.
+      Для удаления слушателя используется метод removeKeyListener.
+     */
     class FieldKeyListener extends KeyAdapter{
         @Override
         public void keyPressed(KeyEvent e){
             super.keyPressed(e);
             int key = e.getKeyCode();
+            System.out.println(key);
             if(key == KeyEvent.VK_LEFT && !right){
                 left = true;
                 up = false;
